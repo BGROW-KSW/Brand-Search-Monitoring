@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-SLACK_WEBHOOK = "YOUR_WEBHOOK_URL"
+SLACK_WEBHOOK = "SLACK_WEBHOOK = "https://hooks.slack.com/services/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"
 
 PC_URL = "https://search.naver.com/search.naver?query="
 MO_URL = "https://m.search.naver.com/search.naver?query="
@@ -50,3 +50,4 @@ if __name__ == "__main__":
     for kw in keywords:
         check_brand(kw, PC_URL, "PC")
         check_brand(kw, MO_URL, "MO")
+
