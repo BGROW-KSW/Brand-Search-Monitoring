@@ -1,51 +1,21 @@
 FROM python:3.10-slim
 
-# Install dependencies
+# 기본 패키지
 RUN apt-get update && apt-get install -y \
     curl \
-    unzip \
-    gnupg \
     wget \
-    fonts-liberation \
-    libnss3 \
-    libgconf-2-4 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libxss1 \
-    libasound2 \
-    libxshmfence1 \
-    libgbm1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Add Google Chrome GPG key
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub \
-    | gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg
-
-# Add Chrome repo
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.gpg] \
-    http://dl.google.com/linux/chrome/deb/ stable main" \
-    > /etc/apt/sources.list.d/google-chrome.list
-
-# Install Chrome
-RUN apt-get update && apt-get install -y google-chrome-stable
-
-# Install ChromeDriver matching the installed Chrome version
-RUN CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}') && \
-    DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$CHROME_VERSION) && \
-    wget -O /tmp/chromedriver.zip \
-      "https://storage.googleapis.com/chrome-for-testing-public/${DRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
-    unzip /tmp/chromedriver.zip -d /tmp/chromedriver && \
-    mv /tmp/chromedriver/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
-    chmod +x /usr/local/bin/chromedriver && \
-    rm -rf /tmp/chromedriver /tmp/chromedriver.zip
-
-# Install Python dependencies
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
-
+# 작업 디렉토리 설정
 WORKDIR /app
 
-COPY worker.py /app/worker.py
-COPY keywords.txt /app/keywords.txt
+# requirements.txt 복사 및 설치
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# 스크립트 복사
+COPY worker.py .
+COPY keywords.txt .
+
+# 실행
 CMD ["python", "worker.py"]
