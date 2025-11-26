@@ -6,7 +6,7 @@ from datetime import datetime
 # ==========================
 # 환경 변수
 # ==========================
-SLACK_WEBHOOK_URL = os.getenv("https://hooks.slack.com/services/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L")
+SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 
 NAVER_PC_URL = "https://search.naver.com/search.naver?query={}"
 NAVER_MO_URL = "https://m.search.naver.com/search.naver?query={}"
@@ -90,4 +90,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
