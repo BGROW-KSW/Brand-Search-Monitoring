@@ -73,8 +73,8 @@ def main():
         pc_ok = check_brand_search(kw, "PC")
         mo_ok = check_brand_search(kw, "MO")
 
-        pc_results.append(f"{kw} ({'☑️ 정상노출' if pc_ok else '❌ 미노출'})")
-        mo_results.append(f"{kw} ({'☑️ 정상노출' if mo_ok else '❌ 미노출'})")
+        pc_results.append(f"{kw} ({'✅ 정상노출' if pc_ok else '❌ 미노출'})")
+        mo_results.append(f"{kw} ({'✅ 정상노출' if mo_ok else '❌ 미노출'})")
 
     # 최종 슬랙 메시지
     slack_message = (
@@ -90,5 +90,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
