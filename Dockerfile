@@ -24,7 +24,7 @@ RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
     > /etc/apt/sources.list.d/google-chrome.list
 
-# Install Google Chrome (NEW method)
+# Install Google Chrome
 RUN apt-get update && apt-get install -y google-chrome-stable
 
 # Install ChromeDriver (match Chrome version)
@@ -35,12 +35,10 @@ RUN CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}') && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
 
-# Copy app files
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Default command
 CMD ["python", "worker.py"]
